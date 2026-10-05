@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-for-me"
+version = "0.1.0"
+description = "Performance review toy project"
+readme = "README.md"
+requires-python = ">=3.10"
