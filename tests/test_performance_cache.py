@@ -23,3 +23,17 @@ def test_build_user_index_uses_normalized_names() -> None:
     index = build_user_index(users)
 
     assert index == {"u-1": "alice smith", "u-2": "alice smith"}
+
+
+def test_memoize_normalizes_equivalent_argument_forms() -> None:
+    calls = {"count": 0}
+
+    @memoize
+    def formatted_name(first: str, last: str, *, prefix: str = "") -> str:
+        calls["count"] += 1
+        return f"{prefix} {first} {last}".strip()
+
+    assert formatted_name("alice", "smith") == "alice smith"
+    assert formatted_name(first="alice", last="smith") == "alice smith"
+    assert formatted_name("alice", last="smith") == "alice smith"
+    assert calls["count"] == 1
