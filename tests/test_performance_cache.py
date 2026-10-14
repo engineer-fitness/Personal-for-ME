@@ -1,4 +1,4 @@
-from src.performance_cache import build_user_index, memoize
+from src.performance_cache import build_user_index, memoize, normalize_user_name
 
 
 def test_memoize_reuses_result_for_same_key() -> None:
@@ -23,6 +23,12 @@ def test_build_user_index_uses_normalized_names() -> None:
     index = build_user_index(users)
 
     assert index == {"u-1": "alice smith", "u-2": "alice smith"}
+
+
+def test_normalize_user_name_reuses_cached_equivalent_names() -> None:
+    assert normalize_user_name(" Alice  Smith ") == "alice smith"
+    assert normalize_user_name("ALICE SMITH") == "alice smith"
+    assert normalize_user_name("alice    smith") == "alice smith"
 
 
 def test_memoize_normalizes_equivalent_argument_forms() -> None:
