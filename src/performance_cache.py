@@ -55,16 +55,10 @@ def _canonicalize_user_name(raw_name: str) -> str:
     return " ".join(tokens)
 
 
-@memoize
-def _normalize_user_name(canonical_name: str) -> str:
-    """Return the canonicalized name for a normalized cache key."""
-    return canonical_name
-
-
 def normalize_user_name(raw_name: str) -> str:
     """Normalize a user name with a small amount of expensive text processing."""
     canonical_name = _canonicalize_user_name(raw_name)
-    return _normalize_user_name(canonical_name)
+    return canonical_name
 
 
 def build_user_index(users: list[dict[str, str]]) -> dict[str, str]:
