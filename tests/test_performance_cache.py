@@ -25,10 +25,11 @@ def test_build_user_index_uses_normalized_names() -> None:
     assert index == {"u-1": "alice smith", "u-2": "alice smith"}
 
 
-def test_normalize_user_name_reuses_cached_equivalent_names() -> None:
+def test_normalize_user_name_canonicalizes_equivalent_names() -> None:
     assert normalize_user_name(" Alice  Smith ") == "alice smith"
     assert normalize_user_name("ALICE SMITH") == "alice smith"
     assert normalize_user_name("alice    smith") == "alice smith"
+    assert normalize_user_name("\tÉLODIE \t O'CONNOR\n") == "élodie o'connor"
 
 
 def test_memoize_normalizes_equivalent_argument_forms() -> None:

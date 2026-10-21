@@ -51,8 +51,7 @@ def memoize(fn: Callable[..., R]) -> Callable[..., R]:
 
 def _canonicalize_user_name(raw_name: str) -> str:
     """Normalize user names before they are used as cache keys."""
-    tokens = [token.lower() for token in raw_name.strip().split()]
-    return " ".join(tokens)
+    return " ".join(raw_name.lower().split())
 
 
 def normalize_user_name(raw_name: str) -> str:
