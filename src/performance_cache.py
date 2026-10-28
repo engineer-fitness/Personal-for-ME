@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import inspect
-from collections.abc import Callable
+from collections.abc import Callable, Iterable, Mapping
 from functools import wraps
 from typing import Any, TypeVar
 
@@ -60,8 +60,8 @@ def normalize_user_name(raw_name: str) -> str:
     return canonical_name
 
 
-def build_user_index(users: list[dict[str, str]]) -> dict[str, str]:
-    """Build a lookup map using the memoized normalization helper."""
+def build_user_index(users: Iterable[Mapping[str, str]]) -> dict[str, str]:
+    """Build a lookup map by normalizing each user's name."""
     index: dict[str, str] = {}
     for user in users:
         index[user["id"]] = normalize_user_name(user["name"])

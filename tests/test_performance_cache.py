@@ -25,6 +25,18 @@ def test_build_user_index_uses_normalized_names() -> None:
     assert index == {"u-1": "alice smith", "u-2": "alice smith"}
 
 
+def test_build_user_index_accepts_iterators() -> None:
+    users = (
+        {"id": f"u-{number}", "name": name}
+        for number, name in enumerate(("Alice Smith", "Bob Jones"), start=1)
+    )
+
+    assert build_user_index(users) == {
+        "u-1": "alice smith",
+        "u-2": "bob jones",
+    }
+
+
 def test_normalize_user_name_canonicalizes_equivalent_names() -> None:
     assert normalize_user_name(" Alice  Smith ") == "alice smith"
     assert normalize_user_name("ALICE SMITH") == "alice smith"
