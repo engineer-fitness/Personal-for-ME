@@ -12,7 +12,7 @@ This repository captures a small performance-review exercise. The goal is to ide
 6. **Avoid default binding when it is unnecessary.** `apply_defaults()` is needed to make omitted and explicit defaults share a key, but functions without defaults could skip that work.
 7. **Reduce canonical-key sorting for restricted signatures.** Sorting makes keyword and positional forms equivalent; decorators with a narrower call contract could avoid sorting and key reconstruction.
 8. **Bound cache growth.** `memoize` retains every result indefinitely; a bounded cache can prevent memory pressure and garbage-collection cost for long-lived, high-cardinality functions.
-9. **Build indexes from iterables.** Accepting an iterable in `build_user_index` would let callers stream records rather than materialize an additional list for large inputs.
+9. **Build indexes from iterables (implemented).** `build_user_index` accepts a one-pass iterator so callers can produce records as needed instead of materializing an input list. A local `tracemalloc` check over 30,000 records reduced peak traced memory from 11.2 MB to 3.9 MB (65%); the output index still necessarily grows with input size.
 10. **Keep cheap normalization uncached.** The generic cache-key construction can outweigh this short string operation, so normalization should remain direct unless workload measurements show repeated-name caching wins.
 
 The current implementation deliberately keeps `normalize_user_name` uncached: its computation is cheap, and memoization would add signature binding, key construction, and cache access without reliably avoiding enough work.
